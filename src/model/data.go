@@ -1,13 +1,20 @@
 package model
 
 import (
+	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
-  )
+)
 
 var db *gorm.DB
-func init()  {
+
+func init() {
 	db, err := gorm.Open("sqlite3", "./data/options.db")
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+
+	db.Close()
 }
 
 /**
@@ -31,20 +38,19 @@ type OptionVO struct {
  * 数据库对应的表
  **/
 type OptionPO struct {
-	gorm.Model
-	Ranking         string `gorm:"ranking"`
-	Company         string `gorm:"company"`
-	Volumn          string `gorm:"volumn"`
-	Change          string `gorm:"change"`
-	TransactionType string `gorm:"transactionType"`
-	ContractCode    string `gorm:"contractCode"`
-	TransactionDate string `gorm:"transactionDate"`
+	Ranking         string `json:"ranking"`
+	Company         string `json:"company"`
+	Volumn          string `json:"volumn"`
+	Change          string `json:"change"`
+	TransactionType string `json:"transactionType"`
+	ContractCode    string `json:"contractCode"`
+	TransactionDate string `json:"transactionDate"`
 }
 
-func (po *OptionPO) Insert()  {
+func (po *OptionPO) Insert() {
 	db.Create(po)
 }
 
-func (po *OptionPO) Query()  {
-	
+func (po *OptionPO) Query() {
+
 }
