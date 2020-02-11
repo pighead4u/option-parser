@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/pighead4u/option-parser/src/model"
 	"github.com/pighead4u/option-parser/src/parse"
 	"os"
 	"path/filepath"
@@ -9,6 +10,7 @@ import (
 
 func main() {
 	getFilelist("./shanghai")
+	model.CloseDB()
 }
 
 func getFilelist(file string) {

@@ -92,10 +92,10 @@ func getCodeAndDate(content string) (string, string) {
 	return code, date
 }
 
-func getOptionPO(content string) (model.OptionPO, model.OptionPO, model.OptionPO) {
-	var type0 = new(model.OptionPO)
-	var type1 = new(model.OptionPO)
-	var type2 = new(model.OptionPO)
+func getOptionPO(content string) (model.Content, model.Content, model.Content) {
+	var type0 = new(model.Content)
+	var type1 = new(model.Content)
+	var type2 = new(model.Content)
 	var data = strings.Split(content, ",")
 	type0.Ranking = data[0]
 	type0.Company = strings.TrimSpace(data[1])

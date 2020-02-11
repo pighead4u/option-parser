@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 )
@@ -9,12 +8,11 @@ import (
 var db *gorm.DB
 
 func init() {
-	db, err := gorm.Open("sqlite3", "./data/options.db")
+	var err error
+	db, err = gorm.Open("sqlite3", "./data/options.db")
 	if err != nil {
-		fmt.Println("error:", err)
+		panic(err)
 	}
-
-	db.Close()
 }
 
 /**
@@ -37,7 +35,8 @@ type OptionVO struct {
  *
  * 数据库对应的表
  **/
-type OptionPO struct {
+type Content struct {
+	gorm.Model
 	Ranking         string `json:"ranking"`
 	Company         string `json:"company"`
 	Volumn          string `json:"volumn"`
@@ -47,10 +46,14 @@ type OptionPO struct {
 	TransactionDate string `json:"transactionDate"`
 }
 
-func (po *OptionPO) Insert() {
+func (po *Content) Insert() {
 	db.Create(po)
 }
 
-func (po *OptionPO) Query() {
+func (po *Content) Query() {
 
+}
+
+func CloseDB() {
+	db.Close()
 }
