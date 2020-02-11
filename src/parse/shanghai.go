@@ -10,6 +10,10 @@ import (
 	"strings"
 )
 
+const NORMAL = "normal"
+const BUY = "buy"
+const SELL = "sell"
+
 func ParseDataFromShangHai(path string) {
 	fmt.Println(path)
 	file, err := os.Open(path)
@@ -101,19 +105,19 @@ func getOptionPO(content string) (model.Content, model.Content, model.Content) {
 	type0.Company = strings.TrimSpace(data[1])
 	type0.Volumn = data[2]
 	type0.Change = data[3]
-	type0.TransactionType = "normal"
+	type0.TransactionType = NORMAL
 
 	type1.Ranking = data[4]
 	type1.Company = strings.TrimSpace(data[5])
 	type1.Volumn = data[6]
 	type1.Change = data[7]
-	type1.TransactionType = "buy"
+	type1.TransactionType = BUY
 
 	type2.Ranking = data[8]
 	type2.Company = strings.TrimSpace(data[9])
 	type2.Volumn = data[10]
 	type2.Change = data[11]
-	type2.TransactionType = "sell"
+	type2.TransactionType = SELL
 
 	return *type0, *type1, *type2
 }
