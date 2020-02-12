@@ -32,7 +32,7 @@ func ParseDataFromShangHai(path string) {
 			continue
 		}
 		if len(tmp) != 0 && strings.HasPrefix(tmp, "合约代码 ：") {
-			code, date = getCodeAndDate(tmp)
+			code, date = getCodeAndDateFromShangHai(tmp)
 			continue
 		}
 
@@ -47,7 +47,7 @@ func ParseDataFromShangHai(path string) {
 		}
 
 		if canEnter {
-			var type0, type1, type2 = getOptionPO(tmp)
+			var type0, type1, type2 = getOptionPOFromShangHai(tmp)
 			type0.TransactionDate = date
 			type0.ContractCode = code
 			type0.Insert()
@@ -69,7 +69,7 @@ func ParseDataFromShangHai(path string) {
 	}
 }
 
-func getCodeAndDate(content string) (string, string) {
+func getCodeAndDateFromShangHai(content string) (string, string) {
 	var data = strings.Split(content, " ")
 	var code = data[1][3:]
 	var tmp = strings.ReplaceAll(data[25], "-", "")
@@ -78,7 +78,7 @@ func getCodeAndDate(content string) (string, string) {
 	return code, date
 }
 
-func getOptionPO(content string) (model.Content, model.Content, model.Content) {
+func getOptionPOFromShangHai(content string) (model.Content, model.Content, model.Content) {
 	var type0 = new(model.Content)
 	var type1 = new(model.Content)
 	var type2 = new(model.Content)
