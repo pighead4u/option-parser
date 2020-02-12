@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	getFilelist("./dalian")
+	getFilelist("./shanghai")
 	model.CloseDB()
 }
 
@@ -21,7 +21,7 @@ func getFilelist(file string) {
 		if f.IsDir() {
 			return nil
 		}
-		parse.ParseDataFromDaLian(path)
+		parse.ParseDataFromShangHai(path)
 		return nil
 	})
 	if err != nil {

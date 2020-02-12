@@ -2,7 +2,6 @@ package parse
 
 import (
 	"bufio"
-	"encoding/json"
 	"fmt"
 	"github.com/pighead4u/option-parser/src/model"
 	"log"
@@ -61,23 +60,6 @@ func ParseDataFromShangHai(path string) {
 			type2.ContractCode = code
 			type2.Insert()
 
-			b, err := json.Marshal(type0)
-			if err != nil {
-				fmt.Println("error:", err)
-			}
-			fmt.Println(string(b))
-
-			b, err = json.Marshal(type1)
-			if err != nil {
-				fmt.Println("error:", err)
-			}
-			fmt.Println(string(b))
-
-			b, err = json.Marshal(type2)
-			if err != nil {
-				fmt.Println("error:", err)
-			}
-			fmt.Println(string(b))
 		}
 
 	}
@@ -88,10 +70,10 @@ func ParseDataFromShangHai(path string) {
 }
 
 func getCodeAndDate(content string) (string, string) {
-	var index = len("合约代码 ：")
-	var code = content[index : index+6]
-	index = strings.Index(content, ",")
-	var date = strings.ReplaceAll(content[index-10:index], "-", "")
+	var data = strings.Split(content, " ")
+	var code = data[1][3:]
+	var tmp = strings.ReplaceAll(data[25], "-", "")
+	var date = strings.ReplaceAll(tmp, ",", "")
 
 	return code, date
 }
