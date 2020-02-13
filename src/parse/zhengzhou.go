@@ -2,7 +2,6 @@ package parse
 
 import (
 	"bufio"
-	"encoding/json"
 	"fmt"
 	"github.com/pighead4u/option-parser/src/model"
 	"log"
@@ -31,8 +30,6 @@ func ParseDataFromZhengZhou(path string) {
 		if len(tmp) != 0 && strings.HasPrefix(tmp, "合约：") {
 			fmt.Println(tmp)
 			code, date = getCodeAndDateFromZhengZhou(tmp)
-			fmt.Println(code)
-			fmt.Println(date)
 			continue
 		}
 
@@ -45,33 +42,33 @@ func ParseDataFromZhengZhou(path string) {
 			var type0, type1, type2 = buildTotalFromZhengZhou(tmp)
 			type0.TransactionDate = date
 			type0.ContractCode = code
-			//type0.Insert()
+			type0.Insert()
 
 			type1.TransactionDate = date
 			type1.ContractCode = code
-			//type1.Insert()
+			type1.Insert()
 
 			type2.TransactionDate = date
 			type2.ContractCode = code
-			//type2.Insert()
+			type2.Insert()
 
-			b, err := json.Marshal(type0)
-			if err != nil {
-				fmt.Println("error:", err)
-			}
-			fmt.Println(string(b))
-
-			b, err = json.Marshal(type1)
-			if err != nil {
-				fmt.Println("error:", err)
-			}
-			fmt.Println(string(b))
-
-			b, err = json.Marshal(type2)
-			if err != nil {
-				fmt.Println("error:", err)
-			}
-			fmt.Println(string(b))
+			//b, err := json.Marshal(type0)
+			//if err != nil {
+			//	fmt.Println("error:", err)
+			//}
+			//fmt.Println(string(b))
+			//
+			//b, err = json.Marshal(type1)
+			//if err != nil {
+			//	fmt.Println("error:", err)
+			//}
+			//fmt.Println(string(b))
+			//
+			//b, err = json.Marshal(type2)
+			//if err != nil {
+			//	fmt.Println("error:", err)
+			//}
+			//fmt.Println(string(b))
 			canEnter = false
 			continue
 		}
@@ -80,15 +77,15 @@ func ParseDataFromZhengZhou(path string) {
 			var type0, type1, type2 = getOptionPOFromZhengZhou(tmp)
 			type0.TransactionDate = date
 			type0.ContractCode = code
-			//type0.Insert()
+			type0.Insert()
 
 			type1.TransactionDate = date
 			type1.ContractCode = code
-			//type1.Insert()
+			type1.Insert()
 
 			type2.TransactionDate = date
 			type2.ContractCode = code
-			//type2.Insert()
+			type2.Insert()
 			//
 			//b, err := json.Marshal(type0)
 			//if err != nil {
