@@ -31,8 +31,6 @@ func ParseDataFromDaLian(path string) {
 		}
 		if len(tmp) != 0 && strings.HasPrefix(tmp, "合约代码：") {
 			code, date = getCodeAndDateFromDaLian(tmp)
-			println(code)
-			println(date)
 			continue
 		}
 
@@ -43,6 +41,28 @@ func ParseDataFromDaLian(path string) {
 		}
 
 		if len(tmp) != 0 && strings.HasPrefix(tmp, "总计") {
+			data := strings.Split(tmp, "\t")
+			var type0 = new(model.Content)
+			type0.Ranking = data[0]
+			type0.Company = ""
+			type0.ContractCode = code
+			type0.TransactionDate = date
+			type0.Volumn = data[4]
+			type0.Change = data[6]
+			switch count {
+			case 1:
+				type0.TransactionType = NORMAL
+			case 2:
+				type0.TransactionType = BUY
+			case 3:
+				type0.TransactionType = SELL
+			}
+			b, err := json.Marshal(type0)
+			if err != nil {
+				fmt.Println("error:", err)
+			}
+			fmt.Println(string(b))
+			type0.Insert()
 			canEnter = false
 			continue
 		}
@@ -89,16 +109,7 @@ func getCodeAndDateFromDaLian(content string) (string, string) {
 func getOptionPOFromDaLian(content, transactionType string) model.Content {
 	var type0 = new(model.Content)
 	var data = strings.Split(content, "\t")
-	fmt.Println(content)
-	fmt.Println(len(data))
-	fmt.Println("0:" + data[0])
-	fmt.Println("1:" + data[1])
-	fmt.Println("2:" + data[2])
-	fmt.Println("3:" + data[3])
-	fmt.Println("4:" + data[4])
-	fmt.Println("5:" + data[5])
-	fmt.Println("6:" + data[6])
-	//fmt.Println(data[7])
+
 	type0.Ranking = data[0]
 	type0.Company = data[2]
 	type0.Volumn = data[3]
