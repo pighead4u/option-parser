@@ -42,23 +42,18 @@ func ParseDataFromZhengZhou(path string) {
 		}
 
 		if len(code) != 0 && len(tmp) != 0 && strings.HasPrefix(tmp, "合计") {
-			canEnter = false
-			continue
-		}
-
-		if canEnter {
-			var type0, type1, type2 = getOptionPOFromZhengZhou(tmp)
+			var type0, type1, type2 = buildTotalFromZhengZhou(tmp)
 			type0.TransactionDate = date
 			type0.ContractCode = code
-			type0.Insert()
+			//type0.Insert()
 
 			type1.TransactionDate = date
 			type1.ContractCode = code
-			type1.Insert()
+			//type1.Insert()
 
 			type2.TransactionDate = date
 			type2.ContractCode = code
-			type2.Insert()
+			//type2.Insert()
 
 			b, err := json.Marshal(type0)
 			if err != nil {
@@ -77,6 +72,41 @@ func ParseDataFromZhengZhou(path string) {
 				fmt.Println("error:", err)
 			}
 			fmt.Println(string(b))
+			canEnter = false
+			continue
+		}
+
+		if canEnter {
+			var type0, type1, type2 = getOptionPOFromZhengZhou(tmp)
+			type0.TransactionDate = date
+			type0.ContractCode = code
+			//type0.Insert()
+
+			type1.TransactionDate = date
+			type1.ContractCode = code
+			//type1.Insert()
+
+			type2.TransactionDate = date
+			type2.ContractCode = code
+			//type2.Insert()
+			//
+			//b, err := json.Marshal(type0)
+			//if err != nil {
+			//	fmt.Println("error:", err)
+			//}
+			//fmt.Println(string(b))
+			//
+			//b, err = json.Marshal(type1)
+			//if err != nil {
+			//	fmt.Println("error:", err)
+			//}
+			//fmt.Println(string(b))
+			//
+			//b, err = json.Marshal(type2)
+			//if err != nil {
+			//	fmt.Println("error:", err)
+			//}
+			//fmt.Println(string(b))
 		}
 
 	}
@@ -86,6 +116,32 @@ func ParseDataFromZhengZhou(path string) {
 	}
 }
 
+func buildTotalFromZhengZhou(content string) (model.Content, model.Content, model.Content) {
+	var type0 = new(model.Content)
+	var type1 = new(model.Content)
+	var type2 = new(model.Content)
+	var data = strings.Split(content, "|")
+
+	type0.Ranking = strings.ReplaceAll(data[0], " ", "")
+	type0.Company = ""
+	type0.Volumn = strings.ReplaceAll(data[2], " ", "")
+	type0.Change = strings.ReplaceAll(data[3], " ", "")
+	type0.TransactionType = NORMAL
+
+	type1.Ranking = type0.Ranking
+	type1.Company = ""
+	type1.Volumn = strings.ReplaceAll(data[5], " ", "")
+	type1.Change = strings.ReplaceAll(data[6], " ", "")
+	type1.TransactionType = BUY
+
+	type2.Ranking = type0.Ranking
+	type2.Company = ""
+	type2.Volumn = strings.ReplaceAll(data[8], " ", "")
+	type2.Change = strings.ReplaceAll(data[9], " ", "")
+	type2.TransactionType = SELL
+
+	return *type0, *type1, *type2
+}
 func getCodeAndDateFromZhengZhou(content string) (string, string) {
 	var data = strings.Split(content, " ")
 	var lenOfCode = len(data[0])
