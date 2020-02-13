@@ -42,6 +42,18 @@ func ParseDataFromShangHai(path string) {
 		}
 
 		if len(tmp) != 0 && strings.HasPrefix(tmp, "合计,") {
+			var type0, type1, type2 = buildTotalFromShangHai(tmp)
+			type0.TransactionDate = date
+			type0.ContractCode = code
+			type0.Insert()
+
+			type1.TransactionDate = date
+			type1.ContractCode = code
+			type1.Insert()
+
+			type2.TransactionDate = date
+			type2.ContractCode = code
+			type2.Insert()
 			canEnter = false
 			continue
 		}
@@ -67,6 +79,33 @@ func ParseDataFromShangHai(path string) {
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func buildTotalFromShangHai(content string) (model.Content, model.Content, model.Content) {
+	var type0 = new(model.Content)
+	var type1 = new(model.Content)
+	var type2 = new(model.Content)
+	var data = strings.Split(content, ",")
+	type0.Ranking = data[0]
+	type0.Company = ""
+	type0.Volumn = data[2]
+	type0.Change = data[3]
+	type0.TransactionType = NORMAL
+
+	type1.Ranking = data[4]
+	type1.Company = ""
+	type1.Volumn = data[6]
+	type1.Change = data[7]
+	type1.TransactionType = BUY
+
+	type2.Ranking = data[8]
+	type2.Company = ""
+	type2.Volumn = data[10]
+	type2.Change = data[11]
+	type2.TransactionType = SELL
+
+	return *type0, *type1, *type2
+
 }
 
 func getCodeAndDateFromShangHai(content string) (string, string) {
